@@ -9,8 +9,8 @@
 }
 
 html {
-    overflow-x: hidden;
-    scroll-behavior: smooth;
+    overflow-x: hidden; /* Mencegah scroll horizontal */
+    scroll-behavior: smooth; /* Untuk smooth scrolling antar section */
 }
 
 body {
@@ -37,7 +37,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative; /* Penting agar elemen anak absolute/fixed tetap relatif terhadap container ini jika diperlukan */
+    position: relative; 
 }
 
 /* Logo atau teks logo */
@@ -55,7 +55,7 @@ nav {
     width: auto;
 }
 
-/* Link-link navigasi utama */
+/* Link-link navigasi utama (Desktop) */
 .nav-container .links {
     display: flex;
     gap: 3rem;
@@ -121,7 +121,7 @@ nav {
     color: #5F85BB;
 }
 
-/* Hamburger Icon - Awalnya tersembunyi, muncul di mobile */
+/* Hamburger Icon (Mobile) */
 .hamburg {
     cursor: pointer;
     color: #1A2F4F;
@@ -129,8 +129,7 @@ nav {
     display: none; /* Awalnya sembunyikan untuk desktop */
     z-index: 30; /* Pastikan di atas dropdown saat aktif */
 
-    /* --- KEMBALIKAN KE POSISI NORMAL OLEH FLEXBOX --- */
-    /* Hapus 'position: fixed', 'top', 'right' */
+    /* Posisi diatur oleh flexbox parent-nya (.nav-container) */
     padding: 5px 10px;
     border: 1px solid #1A2F4F;
     border-radius: 5px;
@@ -151,12 +150,12 @@ nav {
     border-color: #1A2F4F;
 }
 
-/* Cancel Icon - Awalnya tersembunyi, muncul di dropdown */
+/* Cancel Icon (di dalam Dropdown) */
 .cancel {
     cursor: pointer;
     color: #ffffff;
     font-size: 2rem;
-    position: absolute;
+    position: absolute; /* Posisi absolut di dalam dropdown */
     top: 20px;
     right: 20px;
     z-index: 40; /* Pastikan di atas hamburger dan dropdown */
@@ -169,23 +168,25 @@ nav {
     color: #e0e0e0;
 }
 
-
 /* Dropdown Menu (Mobile) */
 .dropdown {
-    position: fixed;
+    position: fixed; /* Tetap di viewport */
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    background-color: rgba(95, 133, 187, 0.95);
+    height: 100vh; /* Full viewport height */
+    background-color: rgba(95, 133, 187, 0.95); /* Latar belakang biru gelap dengan transparansi */
     display: flex;
     justify-content: center;
     align-items: center;
+
+    /* --- KUNCI ANIMASI SLIDE IN/FADE IN --- */
     transform: translateX(-100%); /* Sembunyikan ke kiri secara default */
-    z-index: 25; /* Di bawah hamburger tapi di atas konten utama */
     visibility: hidden; /* Sembunyikan dari interaksi mouse */
     opacity: 0; /* Mulai dengan transparan */
+    /* Urutan transisi penting: transform, opacity, visibility */
     transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out, visibility 0.4s;
+    z-index: 25; 
 }
 
 .dropdown.open { /* Class ini akan ditambahkan oleh JS saat menu dibuka */
@@ -198,37 +199,76 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
-    width: 80%;
+    gap: 25px; /* Jarak antar link di dropdown */
+    width: 80%; /* Lebar link agar tidak terlalu melebar */
 }
 
+/* Animasi untuk Dropdown Links */
 .dropdown-links a {
-    color: #ffffff;
+    color: #ffffff; /* Warna teks link putih */
     text-decoration: none;
-    font-size: 1.6rem;
+    font-size: 1.6rem; /* Ukuran font lebih besar untuk mobile */
     font-weight: 500;
     padding: 10px 0;
     width: 100%;
     text-align: center;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease; /* Transisi untuk hover */
+
+    /* --- TAMBAHAN PENTING UNTUK ANIMASI SATU PER SATU --- */
+    opacity: 0; /* Awalnya sembunyikan semua link */
+    transform: translateY(20px); /* Geser sedikit ke bawah */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out, color 0.3s ease; /* Transisi untuk kemunculan */
 }
 
 .dropdown-links a:hover {
-    color: #e0eaf6;
+    color: #e0eaf6; /* Warna terang saat hover */
+}
+
+/* Saat dropdown terbuka, link akan muncul dan bergeser ke atas */
+.dropdown.open .dropdown-links a {
+    opacity: 1; /* Munculkan link */
+    transform: translateY(0); /* Geser ke posisi normal */
+}
+
+/* Penundaan (Delay) untuk setiap link (CSS Staggered Animation) */
+.dropdown.open .dropdown-links a:nth-child(1) { /* Link pertama (Home) */
+    transition-delay: 0.1s; 
+}
+.dropdown.open .dropdown-links a:nth-child(2) { /* Link kedua (About Me) */
+    transition-delay: 0.2s;
+}
+.dropdown.open .dropdown-links a:nth-child(3) { /* Link ketiga (Background) */
+    transition-delay: 0.3s;
+}
+.dropdown.open .dropdown-links a:nth-child(4) { /* Link keempat (Skills) */
+    transition-delay: 0.4s;
+}
+.dropdown.open .dropdown-links a:nth-child(5) { /* Link kelima (Project) */
+    transition-delay: 0.5s;
+}
+.dropdown.open .dropdown-links a:nth-child(6) { /* Link keenam (Certification) */
+    transition-delay: 0.6s;
+}
+.dropdown.open .dropdown-links a:nth-child(7) { /* Link ketujuh (Contact) */
+    transition-delay: 0.7s;
+}
+
+/* Jangan lupa untuk ikon cancel, pastikan tidak ikut transisi delay */
+.dropdown.open .cancel {
+    transition-delay: 0s; /* Pastikan ikon cancel tidak memiliki delay */
 }
 
 
 /* ==== MEDIA QUERIES UNTUK RESPONSIVITAS NAVBAR ==== */
 @media (max-width: 992px) { /* Contoh breakpoint, sesuaikan jika perlu */
-    /* MODIFIKASI INI: Sembunyikan link dan tombol contact di mobile */
+    /* Sembunyikan link dan tombol contact di mobile */
     .nav-container .links,
     .nav-container .contact-btn {
         display: none;
     }
     
     .hamburg {
-        display: block; /* Tampilkan hamburger ikon */
-        /* Margin kanan dapat diatur di sini jika perlu, atau biarkan default flexbox */
+        display: block; /* Tampilkan hamburger ikon di mobile */
     }
     
     .nav-container {
@@ -255,6 +295,8 @@ nav {
 
 
 /* ==== SECTION (General Section Styling) ==== */
+/* Ini adalah contoh styling umum untuk section Anda. */
+/* Anda mungkin sudah memiliki ini di file CSS Anda. */
 section {
     width: 100%;
     min-height: 90vh;

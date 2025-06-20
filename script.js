@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- Vanilla JavaScript untuk Hamburger/Cancel Menu (Bagian ini yang direvisi) ---
+    // --- Vanilla JavaScript untuk Hamburger/Cancel Menu (Fokus Utama) ---
     const hamburgIcon = document.getElementById("hamburg-icon");
     const cancelIcon = document.getElementById("cancel-icon");
     const dropdownMenu = document.getElementById("dropdown-menu");
@@ -81,26 +81,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fungsi untuk membuka dropdown
     function openDropdown() {
-        dropdownMenu.classList.add('open');
-        hamburgIcon.classList.add('active'); // Memicu CSS .hamburg.active { color: transparent; pointer-events: none; }
-        cancelIcon.style.display = 'block'; // Tampilkan ikon cancel
+        dropdownMenu.classList.add('open'); // Menambahkan kelas 'open' untuk memicu animasi CSS
+        hamburgIcon.classList.add('active'); // Menambahkan kelas 'active' untuk menyembunyikan hamburger via CSS
+        cancelIcon.style.display = 'block'; // Menampilkan ikon cancel
         document.body.style.overflow = 'hidden'; // Mencegah scrolling body saat menu terbuka
     }
 
     // Fungsi untuk menutup dropdown
     function closeDropdown() {
-        dropdownMenu.classList.remove('open');
-        hamburgIcon.classList.remove('active'); // Memicu CSS kembali ke tampilan normal
-        cancelIcon.style.display = 'none'; // Sembunyikan ikon cancel
-        document.body.style.overflow = ''; // Izinkan scrolling body lagi
+        dropdownMenu.classList.remove('open'); // Menghapus kelas 'open' untuk memicu animasi CSS penutupan
+        hamburgIcon.classList.remove('active'); // Menghapus kelas 'active' untuk menampilkan kembali hamburger via CSS
+        cancelIcon.style.display = 'none'; // Menyembunyikan ikon cancel
+        document.body.style.overflow = ''; // Mengizinkan scrolling body lagi
     }
 
-    // Event listener untuk ikon hamburger
+    // Event listener untuk ikon hamburger (membuka menu)
     if (hamburgIcon) {
         hamburgIcon.addEventListener('click', openDropdown);
     }
 
-    // Event listener untuk ikon cancel
+    // Event listener untuk ikon cancel (menutup menu)
     if (cancelIcon) {
         cancelIcon.addEventListener('click', closeDropdown);
     }
@@ -109,8 +109,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (dropdownLinks) {
         dropdownLinks.forEach(link => {
             link.addEventListener('click', () => {
-                closeDropdown(); // Panggil fungsi closeDropdown
-                // Tidak perlu preventDefault() karena scroll-behavior: smooth; akan menangani.
+                closeDropdown(); // Panggil fungsi closeDropdown untuk menutup menu
+                // Tidak perlu event.preventDefault() karena scroll-behavior: smooth; sudah diatur di CSS HTML
             });
         });
     }
