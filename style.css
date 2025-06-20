@@ -354,6 +354,10 @@ section {
     color: #1A2F4F;
     font-weight: 700;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 .typewriter {
@@ -466,12 +470,41 @@ section {
         padding: 0 10px; /* Kurangi padding horizontal di mobile */
     }
 
-    /* Pusatkan teks di mobile */
-    .content .greeting,
-    .content .my-name,
-    .typewriter,
+    /* Penyesuaian khusus untuk .greeting */
+    .content .greeting {
+        font-size: clamp(1rem, 0.8rem + 0.5vw, 1.2rem); /* Ukuran font yang sesuai untuk greeting di mobile */
+        text-align: center; /* Pastikan tetap terpusat */
+        white-space: normal; /* Pastikan teks bisa wrap normal */
+        overflow: visible; /* Pastikan overflow normal */
+        text-overflow: clip; /* Pastikan text-overflow normal */
+    }
+
+    /* Penyesuaian khusus untuk nama "Yuni Astari" di mobile */
+    .content .my-name {
+        font-size: clamp(2.2rem, 1.8rem + 2.5vw, 2.8rem); /* Sesuaikan ukuran font agar tetap 1 baris */
+        text-align: center; /* Tetap pusatkan nama di mobile */
+        white-space: nowrap; /* <-- PENTING: Pastikan ini ada agar tetap 1 baris */
+        overflow: hidden; /* Sembunyikan bagian yang mungkin overflow jika sangat sempit */
+        text-overflow: ellipsis; /* Tambahkan '...' jika teks terpotong */
+    }
+
+    /* Penyesuaian untuk typewriter */
+    .typewriter {
+        text-align: center; /* Pastikan typewriter terpusat di mobile */
+        /* Anda mungkin juga ingin menyesuaikan font-size clamp di sini jika perlu */
+        font-size: clamp(1.3rem, 1.2rem + 1.5vw, 2.5rem); 
+        white-space: normal; /* Pastikan teks bisa wrap normal */
+        overflow: visible; /* Pastikan overflow normal */
+        text-overflow: clip; /* Pastikan text-overflow normal */
+    }
+
+    /* Pastikan .tagline tetap rata kiri di mobile */
     .tagline {
-        text-align: center;
+        text-align: left;
+        padding: 0 15px;
+        white-space: normal; /* Pastikan teks bisa wrap normal */
+        overflow: visible; /* Pastikan overflow normal */
+        text-overflow: clip; /* Pastikan text-overflow normal */
     }
 
     .button-group {
@@ -484,6 +517,13 @@ section {
         width: 100%; /* Jadikan tombol memenuhi lebar container */
         max-width: 280px; /* Batasi lebar maksimal tombol */
         margin: 0 auto; /* Pusatkan tombol */
+    }
+}
+
+/* Optional: Untuk layar yang sangat kecil (misal iPhone SE, Samsung S8) */
+@media (max-width: 375px) {
+    .content .my-name {
+        font-size: 2rem; /* Bisa diatur fixed agar tidak terlalu kecil tapi tetap 1 baris */
     }
 }
 
@@ -539,8 +579,9 @@ section {
     margin-bottom: 25px;
     padding: 15px 0;
     border-bottom: 1px solid #e0e6eb;
-    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-    cursor: pointer;
+    /* Ubah transisi agar lebih fokus pada box-shadow */
+    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+    cursor: default; /* Pastikan cursor bukan pointer jika bukan link/button */
 }
 
 .service-item:last-child {
@@ -564,9 +605,11 @@ section {
 }
 
 .service-item:hover {
-    transform: translateX(10px);
-    background-color: rgba(95, 133, 187, 0.05);
-    border-color: transparent;
+    /* Hapus transform: translateX(10px); */
+    /* Hapus background-color: rgba(95, 133, 187, 0.05); */
+    border-color: #5F85BB; /* Opsional: Ubah warna border bawah */
+    box-shadow: 0 8px 20px rgba(160, 180, 200, 0.2); /* <-- Efek shadow baru */
+    transform: translateY(-2px); /* Opsional: Sedikit mengangkat */
 }
 
 .service-item:hover i {
@@ -590,7 +633,7 @@ section {
     font-size: 1.05rem;
     line-height: 1.7;
     margin-bottom: 20px; /* Jarak antara paragraf. Bisa disesuaikan */
-    text-align: justify;
+    text-align: justify; /* <-- Default for desktop */
 }
 
 .about-right-column p:last-of-type {
@@ -610,7 +653,7 @@ section {
     gap: 20px; /* Jarak antara setiap ikon */
     margin-top: 0; /* Jarak sudah diatur oleh margin-bottom p di atas */
     margin-bottom: 0;
-    justify-content: flex-start;
+    justify-content: flex-start; /* Default: rata kiri untuk desktop */
     max-width: 300px; /* Opsional: Batasi lebar agar ikon tidak terlalu menyebar di layar lebar */
 }
 
@@ -653,35 +696,59 @@ section {
     .about-right-column {
         min-width: unset;
         width: 100%;
-        max-width: 500px;
+        max-width: 500px; /* Batasi lebar maksimal kolom di tablet */
     }
 
     .about-right-column p {
-        text-align: center; /* Teks paragraf rata tengah di mobile */
+        text-align: left; /* <-- UBAH KE RATA KIRI DI MOBILE */
+        padding: 0 15px; /* Tambahkan padding agar teks tidak menempel tepi */
     }
 
     .about-social-links {
         justify-content: center; /* Tengahkan ikon sosial di tablet/mobile */
-        max-width: unset;
+        max-width: unset; /* Hapus batasan max-width */
+    }
+
+    .service-item {
+        margin-bottom: 20px; /* Sedikit kurangi margin */
+        padding: 10px 0; /* Sedikit kurangi padding vertikal */
+    }
+    .service-item i {
+        font-size: 1.6rem; /* Sesuaikan ukuran ikon */
+        margin-right: 15px;
+    }
+    .service-item h3 {
+        font-size: 1.1rem; /* Sesuaikan ukuran judul service item */
     }
 }
 
 @media (max-width: 576px) {
-    .service-item h3 {
-        font-size: 1.1rem;
+    .about-left-column,
+    .about-right-column {
+        padding: 15px; /* Kurangi padding card di mobile sangat kecil */
+    }
+    .about-right-column p {
+        font-size: 0.95rem; /* Sedikit perkecil font paragraf */
+        padding: 0 10px; /* Sesuaikan padding untuk layar sangat kecil */
     }
 
-    .about-right-column p {
-        font-size: 0.95rem;
+    .service-item h3 {
+        font-size: 1rem; /* Ukuran font service item lebih kecil di ponsel */
+    }
+    .service-item i {
+        font-size: 1.5rem; /* Ukuran ikon service item lebih kecil di ponsel */
+        min-width: 35px; /* Sedikit kurangi min-width ikon */
     }
 
     .social-icon-only {
-        width: 55px; /* Sesuaikan lagi di ponsel */
-        height: 55px;
-        font-size: 2.5rem; /* Ukuran ikon di dalam lingkaran di ponsel */
+        width: 50px; /* Sesuaikan lagi di ponsel */
+        height: 50px;
+        font-size: 2.2rem; /* Ukuran ikon di dalam lingkaran di ponsel */
+    }
+    .about-social-links {
+        gap: 15px; /* Kurangi jarak antar ikon di ponsel */
     }
 }
-
 /* ==== EDUCATION & EXPERIENCE BACKGROUND SECTION ==== */
 #background {
     padding: 80px 10%; /* Konsisten dengan section lain */
@@ -905,59 +972,98 @@ section {
     #experience {
         min-width: unset;
         width: 100%;
-        max-width: 500px; /* Batasi lebar agar tidak terlalu besar di tablet */
+        max-width: 500px;
         padding: 20px;
     }
     #education h2,
     #experience h2 {
         font-size: 1.4rem;
-        justify-content: center; /* Tengahkan judul kolom di mobile */
+        justify-content: center;
     }
     #education h2 i,
     #experience h2 i {
         font-size: 1.8rem;
         margin-right: 10px;
     }
-    
+
     .entry {
         padding: 15px;
     }
+
+    /* KUNCI PERBAIKAN UNTUK HEADER ENTRY DI MOBILE */
     .entry-title {
-        flex-direction: column; /* Judul entry menumpuk di mobile */
-        align-items: center;
-        text-align: center; /* Pusatkan teks */
+        display: flex; /* Pastikan ini flex */
+        flex-direction: row; /* TETAPKAN SEBAGAI BARIS DI MOBILE */
+        justify-content: space-between;
+        align-items: center; /* **PENTING: Pusatkan secara vertikal elemen utama dan ikon toggle** */
+        text-align: left; /* Teks di dalam header rata kiri */
+        padding-right: 10px;
+        padding-left: 5px;
     }
+
     .entry-title-main-info {
-        flex-direction: column; /* Logo dan title menumpuk di mobile */
-        align-items: center;
-        margin-bottom: 5px; /* Jarak antara logo dan teks utama di mobile */
+        display: flex; /* Pastikan ini flex */
+        flex-direction: column; /* Konten utama judul dan subtitle menumpuk */
+        align-items: flex-start; /* TETAPKAN RATA KIRI UNTUK TEKS */
+        flex-grow: 1; /* Mengisi ruang yang tersedia */
+        margin-bottom: 0;
     }
-    .entry-logo {
-        margin-right: 0; /* Hapus margin kanan logo */
-        margin-bottom: 8px; /* Tambah margin bawah logo untuk jarak ke teks */
-    }
+
+    /* PERBAIKAN UNTUK LOGO DAN TEKS UTAMA JUDUL */
     .entry-title-content {
-        flex-direction: column; /* **PENTING: Logo dan teks utama menumpuk di mobile** */
-        align-items: center;
-        text-align: center;
+        display: flex; /* Pastikan ini flex */
+        flex-direction: row; /* LOGO DAN TEKS SEJAJAR DI BARIS */
+        align-items: center; /* **PENTING: Sejajarkan logo dan teks secara vertikal** */
+        /* Hapus flex-wrap: wrap; jika Anda ingin logo dan teks selalu 1 baris
+           Atau biarkan jika Anda ingin teks wrap tapi logo tetap sejajar di awal */
+        flex-wrap: nowrap; /* <-- Coba ini dulu untuk memastikan logo dan teks sejajar */
+        text-align: left; /* Pastikan teks rata kiri */
+        margin-bottom: 5px; /* Jarak antara baris ini dan subtitle */
     }
+
+    .entry-logo {
+        margin-right: 8px; /* Berikan sedikit margin kanan ke logo agar ada jarak ke teks */
+        margin-bottom: 0; /* Pastikan tidak ada margin-bottom */
+        width: 25px;
+        height: 25px;
+        flex-shrink: 0; /* Pastikan logo tidak menyusut */
+    }
+    
     .entry-title-content span {
-        text-align: center; /* Pastikan teks utama terpusat */
+        text-align: left; /* Pastikan teks utama rata kiri */
+        font-size: 1rem;
+        line-height: 1.3; /* Untuk teks yang mungkin panjang */
     }
+
     .entry-subtitle {
-        margin-top: 5px; /* Jarak antara title dan subtitle */
+        margin-top: 0;
         font-size: 0.85rem;
-        text-align: center; /* Pastikan subtitle terpusat */
+        text-align: left;
     }
+
     .toggle-icon {
-        position: static; /* Buat ikon plus inline di mobile */
-        margin-top: 10px;
-        align-self: center; /* Tengahkan jika display flex column */
-        background-color: transparent; /* Hapus latar belakang di mobile */
+        position: relative;
+        margin-left: 10px;
+        align-self: center;
+        background-color: transparent;
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
     }
-    /* Pastikan toggle-icon di reset agar tidak berputar di mobile jika tidak diinginkan */
+
     .entry.open .toggle-icon {
-        transform: none; /* Nonaktifkan rotasi di mobile jika tidak diinginkan */
+        transform: rotate(45deg);
+    }
+
+    .entry-details {
+        padding-top: 10px;
+        margin-top: 10px;
+    }
+    .entry-details ul li {
+        font-size: 0.9rem;
+        padding-left: 15px;
+    }
+    .entry-details ul li::before {
+        left: 5px;
     }
 }
 
@@ -971,18 +1077,22 @@ section {
         font-size: 1.6rem;
         margin-right: 10px;
     }
-    .entry-title {
-        font-size: 1rem;
+    .entry-title-content span {
+        font-size: 0.95rem;
     }
     .entry-subtitle {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
     }
     .entry-details ul li {
         font-size: 0.85rem;
     }
     .entry-logo {
-        width: 25px;
-        height: 25px;
+        width: 20px; /* Sedikit perkecil lagi untuk layar sangat kecil */
+        height: 20px;
+        margin-right: 6px; /* Sesuaikan margin logo */
+    }
+    .toggle-icon {
+        font-size: 1.3rem;
     }
 }
 
@@ -1611,195 +1721,193 @@ section {
 
 /* ==== CONTACT SECTION ==== */
 #contact {
-    padding: 80px 10%; /* Padding di atas, bawah, dan samping section */
-    background-color: #f8fbfd; /* Warna latar belakang section */
-    display: flex; /* Menggunakan Flexbox untuk tata letak konten */
-    flex-direction: column; /* Mengatur item di kolom (vertikal) */
-    align-items: center; /* Memusatkan item secara horizontal di dalam kolom */
+    padding: 80px 10%;
+    background-color: #f8fbfd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #contact .section-title {
-    font-size: clamp(2rem, 1.8rem + 1vw, 2.5rem); /* Ukuran font responsif untuk judul */
-    color: #1A2F4F; /* Warna teks judul */
-    margin-bottom: 10px; /* Jarak bawah judul */
-    text-align: center; /* Teks judul di tengah */
-    font-weight: 700; /* Ketebalan font judul */
+    font-size: clamp(2rem, 1.8rem + 1vw, 2.5rem);
+    color: #1A2F4F;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 700;
 }
 
 #contact .underline {
-    width: 80px; /* Lebar garis bawah judul */
-    height: 4px; /* Tinggi garis bawah judul */
-    background-color: #5F85BB; /* Warna garis bawah judul */
-    margin-bottom: 2px; /* Jarak bawah garis bawah */
-    border-radius: 2px; /* Sudut melengkung untuk garis bawah */
+    width: 80px;
+    height: 4px;
+    background-color: #5F85BB;
+    margin-bottom: 2px;
+    border-radius: 2px;
 }
 
 .contact-intro {
-    font-size: 1rem; /* Ukuran font teks pengantar */
-    color: #666666; /* Warna teks pengantar */
-    text-align: center; /* Teks pengantar di tengah */
-    max-width: 700px; /* Lebar maksimum teks pengantar */
-    margin-bottom: 40px; /* Jarak bawah teks pengantar */
-    line-height: 1.6; /* Jarak baris teks pengantar */
-    margin-left: auto; /* Memusatkan elemen ini secara horizontal */
-    margin-right: auto; /* Memusatkan elemen ini secara horizontal */
+    font-size: 1rem;
+    color: #666666;
+    text-align: center;
+    max-width: 700px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .contact-container {
-    width: 100%; /* Lebar kontainer 100% dari parentnya */
-    max-width: 1000px; /* Lebar maksimum kontainer */
-    margin-top: 20px; /* Jarak atas kontainer */
-    margin-left: auto; /* Memusatkan elemen ini secara horizontal */
-    margin-right: auto; /* Memusatkan elemen ini secara horizontal */
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .contact-content-wrapper {
-    display: flex; /* Menggunakan Flexbox untuk tata letak form dan info */
-    flex-wrap: wrap; /* Memungkinkan item untuk wrap (pindah baris) pada layar kecil */
-    gap: 40px; /* Jarak antar form dan info */
-    justify-content: center; /* Memusatkan form dan info jika ada ruang */
-    align-items: flex-start; /* Menjajarkan item dari atas */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .contact-form-wrapper {
-    flex: 1; /* Ambil ruang yang tersedia */
-    min-width: 300px; /* Lebar minimum agar tidak terlalu sempit */
-    background-color: #ffffff; /* Warna latar belakang form */
-    padding: 30px; /* Padding di dalam form */
-    border-radius: 12px; /* Sudut melengkung form */
-    box-shadow: 0 8px 25px rgba(160, 180, 200, 0.15); /* Bayangan form */
+    flex: 1;
+    min-width: 300px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(160, 180, 200, 0.15);
 }
 
 .contact-form {
-    display: flex; /* Menggunakan Flexbox untuk input di dalam form */
-    flex-direction: column; /* Mengatur input di kolom (vertikal) */
-    gap: 15px; /* Jarak antar input */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .form-input,
 .form-textarea {
-    width: 100%; /* Lebar input 100% dari parentnya */
-    padding: 12px 15px; /* Padding di dalam input */
-    border: 1px solid #dcdcdc; /* Border input */
-    border-radius: 8px; /* Sudut melengkung input */
-    font-family: 'Poppins', sans-serif; /* Font untuk input */
-    font-size: 0.95rem; /* Ukuran font input */
-    color: #333333; /* Warna teks input */
-    background-color: #ffffff; /* Warna latar belakang input yang bersih */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transisi saat fokus */
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: #333333;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-    color: rgba(102, 102, 102, 0.7); /* Warna placeholder sedikit transparan */
+    color: rgba(102, 102, 102, 0.7);
 }
 
 .form-input:focus,
 .form-textarea:focus {
-    outline: none; /* Hilangkan outline default saat fokus */
-    border-color: #5F85BB; /* Warna border saat fokus */
-    box-shadow: 0 0 0 3px rgba(95, 133, 187, 0.2); /* Bayangan saat fokus */
+    outline: none;
+    border-color: #5F85BB;
+    box-shadow: 0 0 0 3px rgba(95, 133, 187, 0.2);
 }
 
 .form-textarea {
-    resize: vertical; /* Hanya izinkan resize vertikal */
-    min-height: 120px; /* Tinggi minimum textarea */
+    resize: vertical;
+    min-height: 120px;
 }
 
 .submit-button {
-    background-color: #5F85BB; /* Warna latar belakang tombol submit */
-    color: #ffffff; /* Warna teks tombol submit */
-    padding: 12px 25px; /* Padding tombol submit */
-    border: none; /* Hilangkan border tombol */
-    border-radius: 8px; /* Sudut melengkung tombol */
-    font-size: 1rem; /* Ukuran font tombol */
-    font-weight: 600; /* Ketebalan font tombol */
-    cursor: pointer; /* Kursor berubah menjadi pointer */
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transisi untuk hover dan active */
-    display: inline-flex; /* Agar ikon dan teks sejajar */
-    align-items: center; /* Memusatkan ikon dan teks secara vertikal */
-    justify-content: center; /* Memusatkan konten di dalam tombol */
-    gap: 10px; /* Jarak antara teks dan ikon */
-    box-shadow: 0 4px 15px rgba(95, 133, 187, 0.25); /* Bayangan default untuk kesan "depth" */
+    background-color: #5F85BB;
+    color: #ffffff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(95, 133, 187, 0.25);
 }
 
 .submit-button:hover {
-    background-color: #4a709e; /* Warna latar belakang saat hover */
-    transform: translateY(-3px); /* Sedikit naik saat hover */
-    box-shadow: 0 6px 20px rgba(95, 133, 187, 0.4); /* Bayangan lebih besar saat hover */
+    background-color: #4a709e;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(95, 133, 187, 0.4);
 }
 
-.submit-button:active { /* Efek saat tombol ditekan */
-    transform: translateY(0); /* Kembali ke posisi semula */
-    box-shadow: 0 2px 5px rgba(95, 133, 187, 0.2); /* Bayangan lebih kecil, memberi kesan ditekan */
-    background-color: #3f608a; /* Warna sedikit lebih gelap saat aktif */
+.submit-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(95, 133, 187, 0.2);
+    background-color: #3f608a;
 }
 
 .submit-button i {
-    margin-left: 5px; /* Jarak kiri ikon di tombol */
+    margin-left: 5px;
 }
 
-.form-disclaimer { /* Style untuk teks kecil di bawah form */
+.form-disclaimer {
     font-size: 0.8rem;
     color: #999999;
     text-align: center;
     margin-top: 15px;
 }
 
-
 .contact-info-wrapper {
-    flex: 0 0 auto; /* Tidak flex-grow, tidak menyusut, ambil ukuran otomatis */
-    min-width: 280px; /* Lebar minimum agar tidak terlalu kecil */
-    background-color: #ffffff; /* Warna latar belakang info kontak */
-    padding: 30px; /* Padding di dalam info kontak */
-    border-radius: 12px; /* Sudut melengkung info kontak */
-    box-shadow: 0 8px 25px rgba(160, 180, 200, 0.15); /* Bayangan info kontak */
-    display: flex; /* Menggunakan Flexbox untuk item info */
-    flex-direction: column; /* Mengatur item info di kolom (vertikal) */
-    gap: 15px; /* Jarak antar item info (email, telepon, lokasi) - disesuaikan */
+    flex: 0 0 auto;
+    min-width: 280px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(160, 180, 200, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* Modifikasi untuk info-item yang lebih interaktif */
 .info-item {
     display: flex;
     align-items: center;
-    gap: 15px; /* Jarak antara ikon dan teks */
+    gap: 15px;
     font-size: 1rem;
     color: #333333;
-    padding: 10px 15px; /* Tambahkan padding agar area hover lebih luas */
-    border-radius: 8px; /* Sedikit border-radius untuk efek visual */
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Transisi yang lebih komprehensif */
-    cursor: pointer; /* Memberi indikasi bahwa ini bisa diklik/interaktif */
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .info-item:hover {
-    background-color: #eaf3fb; /* Latar belakang sangat lembut saat hover, dari palet warna Anda */
-    color: #1A2F4F; /* Warna teks sedikit lebih gelap */
-    transform: translateY(-2px); /* Efek naik sedikit saat di-hover */
-    box-shadow: 0 4px 12px rgba(160, 180, 200, 0.1); /* Bayangan lembut saat hover */
+    background-color: #eaf3fb;
+    color: #1A2F4F;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(160, 180, 200, 0.1);
 }
 
 .info-item a {
-    color: #333333; /* Warna teks link default */
+    color: #333333;
     text-decoration: none;
-    transition: color 0.3s ease; /* Transisi warna teks link */
+    transition: color 0.3s ease;
 }
 
 .info-item a:hover {
-    color: #5F85BB; /* Warna teks link saat hover */
+    color: #5F85BB;
 }
 
 .contact-icon {
     font-size: 1.4rem;
-    color: #5F85BB; /* Warna ikon default */
+    color: #5F85BB;
     width: 25px;
     text-align: center;
-    transition: color 0.3s ease, transform 0.2s ease; /* Transisi untuk ikon */
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .info-item:hover .contact-icon {
-    color: #4a709e; /* Ikon sedikit lebih gelap/berubah warna saat item di-hover */
-    transform: scale(1.1); /* Efek zoom kecil pada ikon */
+    color: #4a709e;
+    transform: scale(1.1);
 }
 
 
@@ -1807,6 +1915,11 @@ section {
 @media (max-width: 768px) {
     #contact {
         padding: 50px 5%; /* Padding lebih kecil untuk layar kecil */
+    }
+    .contact-intro {
+        /* Tambahkan padding horizontal agar teks intro tidak menempel tepi */
+        padding: 0 15px;
+        font-size: 0.95rem; /* Sedikit perkecil font intro */
     }
     .contact-content-wrapper {
         flex-direction: column; /* Ubah ke kolom di mobile */
@@ -1816,25 +1929,97 @@ section {
     .contact-form-wrapper,
     .contact-info-wrapper {
         width: 100%; /* Lebar penuh di mobile */
-        max-width: 400px; /* Batasi lebar maksimum agar tidak terlalu lebar di tablet */
+        max-width: 450px; /* **PENTING: Batasi lebar maksimum agar tidak terlalu lebar di tablet/ponsel besar** */
         margin: 0 auto; /* Pusatkan kontainer di mobile */
+        padding: 25px; /* Sedikit kurangi padding internal */
+    }
+
+    /* Perbaiki Tampilan Input Form */
+    .contact-form {
+        gap: 12px; /* Sedikit kurangi jarak antar input */
+    }
+    .form-input,
+    .form-textarea {
+        padding: 10px 12px; /* Sesuaikan padding input agar lebih ringkas */
+        font-size: 0.9rem; /* Sedikit perkecil font input */
+    }
+    .submit-button {
+        width: 100%; /* Tombol memenuhi lebar wrapper */
+        max-width: 280px; /* Batasi lebar tombol agar tidak terlalu lebar */
+        margin: 0 auto; /* Pusatkan tombol */
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+
+    /* Perbaiki Tampilan Info Kontak */
+    .contact-info-wrapper {
+        gap: 15px; /* Jarak antar info-item di mobile */
+        padding: 25px; /* Sesuaikan padding */
+    }
+    .info-item {
+        flex-direction: column; /* **PENTING: Ikon di atas, teks di bawah** */
+        align-items: center; /* **PENTING: Pusatkan ikon dan teks** */
+        text-align: center; /* Pusatkan teks */
+        padding: 15px 10px; /* Tambah padding agar area klik nyaman */
+        font-size: 0.95rem; /* Sesuaikan ukuran font info-item */
+    }
+    .contact-icon {
+        margin-bottom: 8px; /* Jarak antara ikon dan teks */
+        font-size: 1.6rem; /* Ukuran ikon di mobile */
+        margin-right: 0; /* Hapus margin kanan ikon */
+        width: auto; /* Biarkan lebar ikon menyesuaikan */
+    }
+    /* Pastikan link di dalam info-item juga terpusat */
+    .info-item a {
+        text-align: center;
+        display: block; /* Agar a bisa di-center text-align */
     }
 }
 
 @media (max-width: 480px) {
+    #contact {
+        padding: 40px 3%; /* Lebih kecil lagi padding samping untuk ponsel sangat kecil */
+    }
     .contact-intro {
-        font-size: 0.9rem;
+        font-size: 0.85rem; /* Lebih kecil lagi teks intro */
+        padding: 0 10px;
+        margin-bottom: 30px;
+    }
+    .contact-form-wrapper,
+    .contact-info-wrapper {
+        padding: 20px; /* Kurangi padding lebih lanjut */
+        max-width: 320px; /* Batasi lebih kecil untuk ponsel sempit */
+    }
+    .form-input,
+    .form-textarea {
+        font-size: 0.85rem;
     }
     .submit-button {
-        padding: 10px 20px;
+        max-width: 200px; /* Kecilkan lagi lebar tombol */
         font-size: 0.9rem;
     }
     .info-item {
-        font-size: 0.9rem;
-        padding: 8px 12px;
+        font-size: 0.85rem; /* Lebih kecil lagi ukuran teks info */
+        padding: 12px 8px;
     }
     .contact-icon {
-        font-size: 1.2rem;
+        font-size: 1.4rem; /* Lebih kecil lagi ukuran ikon */
     }
 }
+.simple-footer {
+    background-color: #1A2F4F; /* Warna latar belakang gelap, sesuaikan jika ingin berbeda */
+    color: #f0f4f7; /* Warna teks terang */
+    padding: 20px 10%; /* Padding atas dan bawah, serta samping */
+    text-align: center; /* Pusatkan teks */
+    font-size: 0.9rem; /* Ukuran font */
+    font-family: 'Poppins', sans-serif; /* Pastikan font konsisten */
+    margin-top: 50px; /* Opsional: Jarak dari section di atasnya */
+}
 
+/* Responsive jika diperlukan, tapi untuk teks sederhana mungkin tidak banyak perubahan */
+@media (max-width: 768px) {
+    .simple-footer {
+        padding: 15px 5%; /* Sedikit kurangi padding di mobile */
+        font-size: 0.85rem;
+    }
+}
