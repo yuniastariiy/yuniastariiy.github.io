@@ -73,40 +73,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- Vanilla JavaScript untuk Hamburger/Cancel Menu (Diubah menjadi event listener) ---
+    // --- Vanilla JavaScript untuk Hamburger/Cancel Menu ---
     const hamburgIcon = document.getElementById("hamburg-icon");
     const cancelIcon = document.getElementById("cancel-icon");
     const dropdownMenu = document.getElementById("dropdown-menu");
-    const dropdownLinks = document.querySelectorAll("#dropdown-menu .dropdown-links a"); // Pilih semua link di dropdown
+    const dropdownLinks = document.querySelectorAll("#dropdown-menu .dropdown-links a");
+
+    // Fungsi untuk membuka menu
+    function openDropdown() {
+        dropdownMenu.classList.add('open');
+        // MODIFIKASI INI: Gunakan class 'active' untuk menyembunyikan hamburger via CSS
+        hamburgIcon.classList.add('active'); // Memicu CSS .hamburg.active { color: transparent; pointer-events: none; }
+        cancelIcon.style.display = 'block'; // Tampilkan ikon cancel
+        document.body.style.overflow = 'hidden'; // Mencegah scrolling body saat menu terbuka
+    }
+
+    // Fungsi untuk menutup menu
+    function closeDropdown() {
+        dropdownMenu.classList.remove('open');
+        // MODIFIKASI INI: Hapus class 'active' untuk menampilkan hamburger via CSS
+        hamburgIcon.classList.remove('active'); // Memicu CSS kembali ke tampilan normal
+        cancelIcon.style.display = 'none'; // Sembunyikan ikon cancel
+        document.body.style.overflow = ''; // Izinkan scrolling body lagi
+    }
 
     // Event listener untuk membuka menu
-    if (hamburgIcon) {
-        hamburgIcon.addEventListener('click', () => {
-            dropdownMenu.classList.add('open'); // Tambahkan kelas 'open'
-            hamburgIcon.style.display = 'none'; // Sembunyikan ikon hamburger
-            cancelIcon.style.display = 'block'; // Tampilkan ikon silang
-            document.body.style.overflow = 'hidden'; // Mencegah scrolling body saat menu terbuka
-        });
+    if (hamburgIcon) { // Sudah ada pemeriksaan if (hamburgIcon), bagus.
+        hamburgIcon.addEventListener('click', openDropdown);
     }
 
     // Event listener untuk menutup menu (ikon silang)
-    if (cancelIcon) {
-        cancelIcon.addEventListener('click', () => {
-            dropdownMenu.classList.remove('open'); // Hapus kelas 'open'
-            hamburgIcon.style.display = 'block'; // Tampilkan ikon hamburger
-            cancelIcon.style.display = 'none'; // Sembunyikan ikon silang
-            document.body.style.overflow = ''; // Izinkan scrolling body lagi
-        });
+    if (cancelIcon) { // Sudah ada pemeriksaan if (cancelIcon), bagus.
+        cancelIcon.addEventListener('click', closeDropdown);
     }
 
     // Event listener untuk menutup menu ketika salah satu link di dropdown diklik
-    if (dropdownLinks) {
+    if (dropdownLinks) { // Sudah ada pemeriksaan if (dropdownLinks), bagus.
         dropdownLinks.forEach(link => {
             link.addEventListener('click', () => {
-                dropdownMenu.classList.remove('open'); // Tutup menu
-                hamburgIcon.style.display = 'block'; // Tampilkan ikon hamburger
-                cancelIcon.style.display = 'none'; // Sembunyikan ikon silang
-                document.body.style.overflow = ''; // Izinkan scrolling body lagi
+                closeDropdown(); // Panggil fungsi closeDropdown
+                // Tidak perlu preventDefault() karena scroll-behavior: smooth; akan menangani.
             });
         });
     }

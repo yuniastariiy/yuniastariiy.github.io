@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap'); /* Pastikan 700 juga ada */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
 /* Reset dan Global Styles */
 * {
@@ -15,7 +15,6 @@ html {
 
 body {
     width: 100%;
-    /* Latar Belakang Utama: Light Greyish Blue / Very Pale Blue */
     background: linear-gradient(to right, #F0F4F7, #E4EBF0);
 }
 
@@ -25,39 +24,35 @@ nav {
     height: 10vh;
     position: sticky;
     top: 0;
-    background-color: white; /* Tetap putih bersih */
+    background-color: white;
     z-index: 20;
-    /* Shadow yang lebih lembut */
     box-shadow: 0 2px 5px rgba(160, 180, 200, 0.15);
 }
 
 .nav-container {
     width: 100%;
     height: 100%;
-    padding: 0 10%; /* Tambahkan padding agar konten tidak menempel ke sisi */
+    padding: 0 10%;
     display: flex;
-    justify-content: space-between; /* Penting: agar logo dan links terpisah */
-    align-items: center; /* PENTING: agar semua item sejajar vertikal di tengah */
+    justify-content: space-between;
+    align-items: center;
     position: relative;
 }
 
 /* Logo atau teks logo */
 .logo {
-    /* Jika logo Anda adalah teks */
     font-size: 1.5rem;
     font-weight: 700;
     color: #1A2F4F;
     text-decoration: none;
-    display: flex; /* Tambahkan ini jika logo adalah pembungkus teks/gambar */
+    display: flex;
     align-items: center;
-    height: 100%; /* Pastikan logo mengambil tinggi penuh nav */
+    height: 100%;
 }
-/* Jika Anda memiliki gambar logo, atur lebarnya di sini */
 .logo img {
-    height: 40px; /* Atur tinggi gambar logo */
+    height: 40px;
     width: auto;
 }
-
 
 /* Link-link navigasi utama */
 .nav-container .links {
@@ -69,7 +64,7 @@ nav {
 .nav-container .links a {
     position: relative;
     font-size: 1.2rem;
-    color: #1A2F4F; /* Warna teks link default (Home, About Me, dll.) */
+    color: #1A2F4F;
     text-decoration: none;
     font-weight: 500;
 }
@@ -81,7 +76,6 @@ nav {
     left: 0;
     width: 0%;
     height: 3px;
-    /* Warna Aksen: Steel Blue/Dusty Blue */
     background-color: #5F85BB;
     transition: 0.2s linear;
 }
@@ -94,44 +88,36 @@ nav {
     background-color: transparent;
     padding: 5px 20px;
     border-radius: 20px;
-    /* Border Warna Aksen: Steel Blue/Dusty Blue */
     border: 2px solid #5F85BB;
-    /* Tambahkan transisi untuk efek hover pada background dan border */
     transition: background-color 0.3s linear, border-color 0.3s linear;
 }
 
 .nav-container .contact-btn a {
-    /* Warna Aksen: Steel Blue/Dusty Blue */
-    color: #5F85BB; /* Warna teks default tombol Contact */
+    color: #5F85BB;
     transition: 0.3s linear;
     font-weight: 600;
 }
 
 .nav-container .contact-btn:hover {
-    /* Background dan Teks Hover Warna Aksen */
-    background-color: #5F85BB; /* Background tombol saat di-hover */
-    border-color: #5F85BB; /* Border juga berubah warna saat di-hover */
+    background-color: #5F85BB;
+    border-color: #5F85BB;
 }
 
 .nav-container .contact-btn:hover a {
-    color: white; /* UBAH INI: Warna teks menjadi putih saat tombol di-hover */
+    color: white;
 }
 
-/* Jika Anda menggunakan kelas 'active' pada link 'Contact' saat halaman Contact aktif,
-    Anda juga perlu menambahkan aturan ini: */
 .nav-container .contact-btn.active {
-    background-color: #5F85BB; /* Background tombol saat aktif */
-    border-color: #5F85BB; /* Border tombol saat aktif */
+    background-color: #5F85BB;
+    border-color: #5F85BB;
 }
 
 .nav-container .contact-btn.active a {
-    color: white; /* UBAH INI: Warna teks menjadi putih saat tombol aktif */
+    color: white;
 }
 
-/* Jika Anda memiliki kelas 'active' pada link umum (Home, About Me, dll.) */
 .nav-container .links a.active {
-    color: #5F85BB; /* Contoh: teks biru untuk link aktif (selain Contact) */
-    /* Anda bisa tambahkan atau ubah style lain di sini jika ingin */
+    color: #5F85BB;
 }
 
 /* Hamburger Icon - Awalnya tersembunyi, muncul di mobile */
@@ -140,66 +126,77 @@ nav {
     color: #1A2F4F;
     font-size: 2rem;
     display: none; /* Awalnya sembunyikan untuk desktop */
-    z-index: 30;
+    z-index: 30; /* Pastikan di atas dropdown saat aktif */
 
-    /* --- MODIFIKASI INI: Penempatan dan Tampilan Hamburger --- */
-    padding: 5px 10px; /* Tambahkan sedikit padding agar area klik lebih nyaman */
-    border: 1px solid #1A2F4F; /* Border tipis dengan warna teks untuk visualisasi */
-    border-radius: 5px; /* Sedikit lengkungan pada border */
-    transition: all 0.3s ease; /* Transisi untuk efek hover yang halus */
-    margin-right: 10px; /* Sesuaikan jarak dari tepi kanan navbar */
+    /* --- MODIFIKASI: Penempatan dan Tampilan Hamburger untuk Transisi --- */
+    position: fixed; /* Gunakan fixed agar posisinya tidak bergeser */
+    top: 25px; /* Sesuaikan dengan tinggi navbar Anda */
+    right: 20px; /* Jarak dari kanan */
+    transition: transform 0.3s ease, color 0.3s ease; /* Tambahkan transisi */
 }
 
-.hamburg:hover {
-    background-color: #1A2F4F; /* Background saat hover */
-    color: white; /* Warna icon saat hover */
-    border-color: #1A2F4F; /* Border juga berubah warna */
+.hamburg.active { /* Kelas yang ditambahkan JS saat dropdown terbuka */
+    color: transparent; /* Sembunyikan ikon hamburger dengan membuatnya transparan */
+    pointer-events: none; /* Nonaktifkan klik saat tersembunyi */
 }
 
 /* Cancel Icon - Awalnya tersembunyi, muncul di dropdown */
 .cancel {
     cursor: pointer;
-    color: #ffffff; /* Warna putih agar terlihat di background dropdown */
+    color: #ffffff;
     font-size: 2rem;
-    position: absolute; /* Posisikan absolut di dalam dropdown */
-    top: 20px; /* Jarak dari atas dropdown */
-    right: 20px; /* Jarak dari kanan dropdown */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 40; /* Pastikan di atas hamburger dan dropdown */
     display: none; /* Awalnya sembunyikan */
+    transition: transform 0.3s ease, color 0.3s ease; /* Tambahkan transisi */
+}
+
+.cancel:hover {
+    transform: rotate(90deg); /* Animasi putar saat hover */
+    color: #e0e0e0;
 }
 
 
 /* Dropdown Menu (Mobile) */
 .dropdown {
-    position: fixed; /* Gunakan fixed agar menutupi seluruh layar */
+    position: fixed;
     top: 0;
-    left: 0;
+    left: 0; /* Mulai dari kiri untuk slide dari kiri */
     width: 100%;
-    height: 100vh; /* Full viewport height */
-    background-color: rgba(95, 133, 187, 0.95); /* Latar belakang biru gelap dengan transparansi */
+    height: 100vh;
+    background-color: rgba(95, 133, 187, 0.95);
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: translateX(100%); /* Sembunyikan ke kanan secara default */
+    /* ==== MODIFIKASI KUNCI: Animasi Slide ==== */
+    transform: translateX(-100%); /* Sembunyikan ke kiri secara default */
     transition: transform 0.4s ease-in-out; /* Transisi untuk slide-in/out */
     z-index: 25; /* Di bawah hamburger tapi di atas konten utama */
+    visibility: hidden; /* Sembunyikan dari interaksi mouse */
+    opacity: 0; /* Mulai dengan transparan */
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out, visibility 0.4s;
 }
 
 .dropdown.open { /* Class ini akan ditambahkan oleh JS saat menu dibuka */
     transform: translateX(0); /* Munculkan menu */
+    visibility: visible; /* Jadikan terlihat dan interaktif */
+    opacity: 1; /* Munculkan penuh */
 }
 
 .dropdown-links {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px; /* Jarak antar link di dropdown */
-    width: 80%; /* Lebar link agar tidak terlalu melebar */
+    gap: 25px;
+    width: 80%;
 }
 
 .dropdown-links a {
-    color: #ffffff; /* Warna teks link putih */
+    color: #ffffff;
     text-decoration: none;
-    font-size: 1.6rem; /* Ukuran font lebih besar untuk mobile */
+    font-size: 1.6rem;
     font-weight: 500;
     padding: 10px 0;
     width: 100%;
@@ -208,13 +205,12 @@ nav {
 }
 
 .dropdown-links a:hover {
-    color: #e0eaf6; /* Warna terang saat hover */
+    color: #e0eaf6;
 }
 
 
 /* ==== MEDIA QUERIES UNTUK RESPONSIVITAS NAVBAR ==== */
-@media (max-width: 992px) { /* Contoh breakpoint, sesuaikan jika perlu */
-    /* MODIFIKASI INI: Sembunyikan link dan tombol contact di mobile */
+@media (max-width: 992px) {
     .nav-container .links,
     .nav-container .contact-btn {
         display: none;
@@ -222,22 +218,19 @@ nav {
     
     .hamburg {
         display: block; /* Tampilkan hamburger ikon */
-        /* MODIFIKASI INI: Atur margin-right spesifik untuk tampilan mobile */
-        margin-right: 15px; /* Anda bisa menyesuaikan nilai ini sesuai keinginan */
     }
     
     .nav-container {
-        justify-content: space-between; /* Pastikan logo dan hamburger terpisah */
+        justify-content: space-between;
     }
 }
 
 @media (max-width: 480px) {
     .nav-container {
-        padding: 0 5%; /* Padding lebih kecil di mobile sangat kecil */
+        padding: 0 5%;
     }
     .hamburg {
-        font-size: 1.8rem; /* Ukuran hamburger lebih kecil */
-        margin-right: 10px; /* Sesuaikan lagi di breakpoint yang lebih kecil jika perlu */
+        font-size: 1.8rem;
     }
     .cancel {
         font-size: 1.8rem;
