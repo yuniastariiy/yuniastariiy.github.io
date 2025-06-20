@@ -73,42 +73,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- Vanilla JavaScript untuk Hamburger/Cancel Menu ---
+    // --- Vanilla JavaScript untuk Hamburger/Cancel Menu (Bagian ini yang direvisi) ---
     const hamburgIcon = document.getElementById("hamburg-icon");
     const cancelIcon = document.getElementById("cancel-icon");
     const dropdownMenu = document.getElementById("dropdown-menu");
     const dropdownLinks = document.querySelectorAll("#dropdown-menu .dropdown-links a");
 
-    // Fungsi untuk membuka menu
+    // Fungsi untuk membuka dropdown
     function openDropdown() {
         dropdownMenu.classList.add('open');
-        // MODIFIKASI INI: Gunakan class 'active' untuk menyembunyikan hamburger via CSS
         hamburgIcon.classList.add('active'); // Memicu CSS .hamburg.active { color: transparent; pointer-events: none; }
         cancelIcon.style.display = 'block'; // Tampilkan ikon cancel
         document.body.style.overflow = 'hidden'; // Mencegah scrolling body saat menu terbuka
     }
 
-    // Fungsi untuk menutup menu
+    // Fungsi untuk menutup dropdown
     function closeDropdown() {
         dropdownMenu.classList.remove('open');
-        // MODIFIKASI INI: Hapus class 'active' untuk menampilkan hamburger via CSS
         hamburgIcon.classList.remove('active'); // Memicu CSS kembali ke tampilan normal
         cancelIcon.style.display = 'none'; // Sembunyikan ikon cancel
         document.body.style.overflow = ''; // Izinkan scrolling body lagi
     }
 
-    // Event listener untuk membuka menu
-    if (hamburgIcon) { // Sudah ada pemeriksaan if (hamburgIcon), bagus.
+    // Event listener untuk ikon hamburger
+    if (hamburgIcon) {
         hamburgIcon.addEventListener('click', openDropdown);
     }
 
-    // Event listener untuk menutup menu (ikon silang)
-    if (cancelIcon) { // Sudah ada pemeriksaan if (cancelIcon), bagus.
+    // Event listener untuk ikon cancel
+    if (cancelIcon) {
         cancelIcon.addEventListener('click', closeDropdown);
     }
 
     // Event listener untuk menutup menu ketika salah satu link di dropdown diklik
-    if (dropdownLinks) { // Sudah ada pemeriksaan if (dropdownLinks), bagus.
+    if (dropdownLinks) {
         dropdownLinks.forEach(link => {
             link.addEventListener('click', () => {
                 closeDropdown(); // Panggil fungsi closeDropdown

@@ -15,6 +15,7 @@ html {
 
 body {
     width: 100%;
+    /* Latar Belakang Utama: Light Greyish Blue / Very Pale Blue */
     background: linear-gradient(to right, #F0F4F7, #E4EBF0);
 }
 
@@ -36,7 +37,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
+    position: relative; /* Penting agar elemen anak absolute/fixed tetap relatif terhadap container ini jika diperlukan */
 }
 
 /* Logo atau teks logo */
@@ -49,7 +50,7 @@ nav {
     align-items: center;
     height: 100%;
 }
-.logo img {
+.logo img { /* Jika Anda menggunakan gambar logo */
     height: 40px;
     width: auto;
 }
@@ -128,16 +129,26 @@ nav {
     display: none; /* Awalnya sembunyikan untuk desktop */
     z-index: 30; /* Pastikan di atas dropdown saat aktif */
 
-    /* --- MODIFIKASI: Penempatan dan Tampilan Hamburger untuk Transisi --- */
-    position: fixed; /* Gunakan fixed agar posisinya tidak bergeser */
-    top: 25px; /* Sesuaikan dengan tinggi navbar Anda */
-    right: 20px; /* Jarak dari kanan */
-    transition: transform 0.3s ease, color 0.3s ease; /* Tambahkan transisi */
+    /* --- KEMBALIKAN KE POSISI NORMAL OLEH FLEXBOX --- */
+    /* Hapus 'position: fixed', 'top', 'right' */
+    padding: 5px 10px;
+    border: 1px solid #1A2F4F;
+    border-radius: 5px;
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.hamburg.active { /* Kelas yang ditambahkan JS saat dropdown terbuka */
+/* Animasi untuk menyembunyikan/menampilkan ikon hamburger */
+.hamburg.active {
     color: transparent; /* Sembunyikan ikon hamburger dengan membuatnya transparan */
+    background-color: transparent; /* Pastikan background juga transparan */
+    border-color: transparent; /* Border juga transparan */
     pointer-events: none; /* Nonaktifkan klik saat tersembunyi */
+}
+
+.hamburg:hover {
+    background-color: #1A2F4F;
+    color: white;
+    border-color: #1A2F4F;
 }
 
 /* Cancel Icon - Awalnya tersembunyi, muncul di dropdown */
@@ -150,7 +161,7 @@ nav {
     right: 20px;
     z-index: 40; /* Pastikan di atas hamburger dan dropdown */
     display: none; /* Awalnya sembunyikan */
-    transition: transform 0.3s ease, color 0.3s ease; /* Tambahkan transisi */
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .cancel:hover {
@@ -163,16 +174,14 @@ nav {
 .dropdown {
     position: fixed;
     top: 0;
-    left: 0; /* Mulai dari kiri untuk slide dari kiri */
+    left: 0;
     width: 100%;
     height: 100vh;
     background-color: rgba(95, 133, 187, 0.95);
     display: flex;
     justify-content: center;
     align-items: center;
-    /* ==== MODIFIKASI KUNCI: Animasi Slide ==== */
     transform: translateX(-100%); /* Sembunyikan ke kiri secara default */
-    transition: transform 0.4s ease-in-out; /* Transisi untuk slide-in/out */
     z-index: 25; /* Di bawah hamburger tapi di atas konten utama */
     visibility: hidden; /* Sembunyikan dari interaksi mouse */
     opacity: 0; /* Mulai dengan transparan */
@@ -210,7 +219,8 @@ nav {
 
 
 /* ==== MEDIA QUERIES UNTUK RESPONSIVITAS NAVBAR ==== */
-@media (max-width: 992px) {
+@media (max-width: 992px) { /* Contoh breakpoint, sesuaikan jika perlu */
+    /* MODIFIKASI INI: Sembunyikan link dan tombol contact di mobile */
     .nav-container .links,
     .nav-container .contact-btn {
         display: none;
@@ -218,10 +228,11 @@ nav {
     
     .hamburg {
         display: block; /* Tampilkan hamburger ikon */
+        /* Margin kanan dapat diatur di sini jika perlu, atau biarkan default flexbox */
     }
     
     .nav-container {
-        justify-content: space-between;
+        justify-content: space-between; /* Pastikan logo dan hamburger terpisah */
     }
 }
 
