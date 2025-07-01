@@ -1,25 +1,20 @@
 // script.js
+document.addEventListener('DOMContentLoaded', function () {
+    // === AOS ===
+    AOS.init({
+        offset: 0,
+        duration: 1000,
+        once: true,
+    });
 
-// --- Inisialisasi AOS ---
-AOS.init({ 
-    offset: 0, 
-    duration: 1000, 
-    once: true, 
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    // --- Fungsi untuk Typed.js ---
-    var typedElement = document.querySelector('.typed-text');
+    // === Typed.js ===
+    const typedElement = document.querySelector('.typed-text');
     if (typedElement) {
-        var typed = new Typed('.typed-text', {
-            strings: [
-                'Data Analyst',
-                'Data Integrator',
-                'Insight Catalyst'
-            ],
-            typeSpeed: 30,
-            backSpeed: 10,
-            backDelay: 500,
+        new Typed('.typed-text', {
+            strings: ['Data Analyst', 'Data Integrator', 'Insight Catalyst'],
+            typeSpeed: 50,
+            backSpeed: 20,
+            backDelay: 1500,
             startDelay: 500,
             loop: true,
             showCursor: true,
@@ -28,86 +23,160 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Fungsi untuk Tabs di Section Skills ---
+    // === Tabs ===
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanes = document.querySelectorAll('.tab-pane');
 
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
             const targetTab = button.dataset.tab;
-            const parentTabContainer = button.closest('.tabs-container');
-            
-            if (parentTabContainer) {
-                parentTabContainer.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-                parentTabContainer.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-            } else {
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabPanes.forEach(pane => pane.classList.remove('active'));
-            }
-
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
             button.classList.add('active');
             const targetPane = document.getElementById(targetTab);
-            if (targetPane) {
-                targetPane.classList.add('active');
-            }
+            if (targetPane) targetPane.classList.add('active');
         });
     });
 
-    // --- Vanilla JavaScript untuk fungsionalitas toggle di Education & Experience ---
+    // === Toggle Experience/Education ===
     const entryTitles = document.querySelectorAll('.entry-title');
-
     entryTitles.forEach(title => {
-        title.addEventListener('click', function() {
+        title.addEventListener('click', function () {
             const parentEntry = this.closest('.entry');
-            const details = this.nextElementSibling;
             const icon = this.querySelector('.toggle-icon');
-
-            if (parentEntry && details && icon) {
-                parentEntry.classList.toggle('open'); 
-                if (icon.textContent.trim() === '+') {
-                    icon.textContent = '-';
-                } else {
-                    icon.textContent = '+';
-                }
+            if (parentEntry && icon) {
+                parentEntry.classList.toggle('open');
+                icon.textContent = parentEntry.classList.contains('open') ? '-' : '+';
             }
         });
     });
 
-    // --- Vanilla JavaScript untuk Hamburger/Cancel Menu (Diubah menjadi event listener) ---
-    const hamburgIcon = document.getElementById("hamburg-icon");
-    const cancelIcon = document.getElementById("cancel-icon");
-    const dropdownMenu = document.getElementById("dropdown-menu");
-    const dropdownLinks = document.querySelectorAll("#dropdown-menu .dropdown-links a"); // Pilih semua link di dropdown
+    // === Mobile Dropdown Menu ===
+    const hamburg = document.getElementById('hamburg-icon');
+    const cancel = document.getElementById('cancel-icon');
+    const dropdown = document.getElementById('dropdown-menu');
+    const dropdownLinks = document.querySelectorAll('.dropdown-links a');
 
-    // Event listener untuk membuka menu
-    if (hamburgIcon) {
-        hamburgIcon.addEventListener('click', () => {
-            dropdownMenu.classList.add('open'); // Tambahkan kelas 'open'
-            hamburgIcon.style.display = 'none'; // Sembunyikan ikon hamburger
-            cancelIcon.style.display = 'block'; // Tampilkan ikon silang
-            document.body.style.overflow = 'hidden'; // Mencegah scrolling body saat menu terbuka
-        });
-    }
+    const openMenu = () => {
+        // Mengubah penggunaan optional chaining pada penugasan
+        if (dropdown) dropdown.classList.add('open');
+        if (hamburg) hamburg.classList.add('active');
+        if (cancel) cancel.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    };
 
-    // Event listener untuk menutup menu (ikon silang)
-    if (cancelIcon) {
-        cancelIcon.addEventListener('click', () => {
-            dropdownMenu.classList.remove('open'); // Hapus kelas 'open'
-            hamburgIcon.style.display = 'block'; // Tampilkan ikon hamburger
-            cancelIcon.style.display = 'none'; // Sembunyikan ikon silang
-            document.body.style.overflow = ''; // Izinkan scrolling body lagi
-        });
-    }
+    const closeMenu = () => {
+        // Mengubah penggunaan optional chaining pada penugasan
+        if (dropdown) dropdown.classList.remove('open');
+        if (hamburg) hamburg.classList.remove('active');
+        if (cancel) cancel.style.display = 'none';
+        document.body.style.overflow = '';
+    };
 
-    // Event listener untuk menutup menu ketika salah satu link di dropdown diklik
-    if (dropdownLinks) {
-        dropdownLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                dropdownMenu.classList.remove('open'); // Tutup menu
-                hamburgIcon.style.display = 'block'; // Tampilkan ikon hamburger
-                cancelIcon.style.display = 'none'; // Sembunyikan ikon silang
-                document.body.style.overflow = ''; // Izinkan scrolling body lagi
-            });
+    // Untuk event listener, optional chaining aman karena hasilnya undefined jika elemen tidak ada,
+    // dan addEventListener tidak akan dipanggil pada undefined.
+    hamburg?.addEventListener('click', openMenu);
+    cancel?.addEventListener('click', closeMenu);
+    dropdownLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+    // === Project Pagination ===
+    const itemsPerPage = 3;
+    let currentPage = 1;
+
+    const showPage = (page) => {
+        const cards = document.querySelectorAll('.project-card');
+        const totalPages = Math.ceil(cards.length / itemsPerPage);
+
+        cards.forEach((card, index) => {
+            card.style.display = (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) ? 'flex' : 'none';
         });
-    }
+
+        // Bagian yang menyebabkan error. Ubah seperti ini:
+        const pageIndicatorElement = document.getElementById('pageIndicator');
+        if (pageIndicatorElement) {
+            pageIndicatorElement.textContent = page;
+        }
+
+        const prevPageButton = document.getElementById('prevPage');
+        if (prevPageButton) {
+            prevPageButton.disabled = page === 1;
+        }
+
+        const nextPageButton = document.getElementById('nextPage');
+        if (nextPageButton) {
+            nextPageButton.disabled = page === totalPages;
+        }
+    };
+
+    // Event listener aman dengan optional chaining
+    document.getElementById('prevPage')?.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    });
+
+    // Event listener aman dengan optional chaining
+    document.getElementById('nextPage')?.addEventListener('click', () => {
+        const cards = document.querySelectorAll('.project-card');
+        const totalPages = Math.ceil(cards.length / itemsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        showPage(currentPage);
+    });
+
+    showPage(currentPage); // Panggil ini setelah semua definisi fungsi dan variabel
+
+    // === Certification Pagination ===
+    const certCards = document.querySelectorAll('.certification-card');
+    const certItemsPerPage = 3;
+    let currentCertPage = 1;
+
+    const showCertPage = (page) => {
+        const totalCertPages = Math.ceil(certCards.length / certItemsPerPage);
+
+        certCards.forEach((card, index) => {
+            card.style.display = (index >= (page - 1) * certItemsPerPage && index < page * certItemsPerPage) ? 'flex' : 'none';
+        });
+
+        // Bagian yang menyebabkan error. Ubah seperti ini:
+        const certPageIndicatorElement = document.getElementById('certPageIndicator');
+        if (certPageIndicatorElement) {
+            certPageIndicatorElement.textContent = page;
+        }
+
+        const prevCertPageButton = document.getElementById('prevCertPage');
+        if (prevCertPageButton) {
+            prevCertPageButton.disabled = page === 1;
+        }
+
+        const nextCertPageButton = document.getElementById('nextCertPage');
+        if (nextCertPageButton) {
+            nextCertPageButton.disabled = page === totalCertPages;
+        }
+    };
+
+    // Event listener aman dengan optional chaining
+    document.getElementById('prevCertPage')?.addEventListener('click', () => {
+        if (currentCertPage > 1) {
+            currentCertPage--;
+            showCertPage(currentCertPage);
+        }
+    });
+
+    // Event listener aman dengan optional chaining
+    document.getElementById('nextCertPage')?.addEventListener('click', () => {
+        const totalCertPages = Math.ceil(certCards.length / certItemsPerPage);
+        if (currentCertPage < totalCertPages) {
+            currentCertPage++;
+            showCertPage(currentCertPage);
+        }
+    });
+
+    showCertPage(currentCertPage); // Panggil ini setelah semua definisi fungsi dan variabel
 });
