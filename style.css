@@ -800,7 +800,6 @@ section {
     }
 }
 
-/* ==== EDUCATION & EXPERIENCE BACKGROUND SECTION ==== */
 #background {
     padding: 80px 10%;
     background-color: #ffffff;
@@ -958,22 +957,28 @@ section {
     padding-top: 15px;
     border-top: 1px solid #e9ecef;
     margin-top: 15px;
-    padding-left: 0; 
-    padding-right: 0; 
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .entry.open .entry-details {
     max-height: 500px;
     transition: max-height 0.5s ease-in;
-    padding-bottom: 20px; 
+    padding-bottom: 20px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* --- Bullet Points Styling --- */
+.entry.open .entry-details::-webkit-scrollbar {
+    display: none;
+}
+
 .entry-details ul {
-    list-style: disc; 
-    padding-left: 20px; 
-    margin: 0; 
-    color: #4A658A; 
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+    color: #4A658A;
 }
 
 .entry-details ul li {
@@ -987,7 +992,6 @@ section {
 }
 
 
-/* ==== RESPONSIVE DESIGN FOR BACKGROUND SECTION ==== */
 @media (max-width: 884px) {
     #background {
         padding: 50px 5%;
@@ -1082,15 +1086,18 @@ section {
     .entry-details {
         padding-top: 10px;
         margin-top: 10px;
-        padding-left: 0; 
-        padding-right: 0; 
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .entry.open .entry-details {
+        max-height: 400px;
+        overflow-y: auto;
     }
     .entry-details ul {
-        padding-left: 15px; 
+        padding-left: 15px;
     }
     .entry-details ul li {
         font-size: 0.9rem;
-        
     }
 }
 
@@ -1122,7 +1129,6 @@ section {
         font-size: 1.3rem;
     }
 }
-
 /* ==== SKILLS SECTION ==== */
 #skills {
     padding: 80px 10%;
